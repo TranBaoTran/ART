@@ -11,12 +11,6 @@
                 break;
             case 'cart':
                 break;
-            case 'log':
-                include_once "login.php";
-                break;
-            case 'sig':
-                include_once "signin.php";
-                break;
         }
      }
      else{

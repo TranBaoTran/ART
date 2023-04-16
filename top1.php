@@ -33,8 +33,8 @@
 <div class="top">
         <div class="top_container" id="noneCart" onclick="noAcc()"><i class="fa-solid fa-cart-shopping"></i> &nbspGIỎ HÀNG</i></div>
         <div class="top_container hidden" id="userCart" onclick="goCart()"><a href="index.php?id=cart"><i class="fa-solid fa-cart-shopping"></i> &nbspGIỎ HÀNG</i><a></div>
-        <div class="top_container" id="Signin_Button"><a href="index.php?id=sig"><i class="fa-solid fa-right-to-bracket"></i>&nbspĐĂNG KÝ</a></div>
-        <div class="top_container" id="Login_Button"><a href="index.php?id=log"><i class="fa-solid fa-user"></i> &nbspĐĂNG NHẬP</a></div>
+        <div class="top_container" id="Signin_Button"><a href="index.php?form=sig"><i class="fa-solid fa-right-to-bracket"></i>&nbspĐĂNG KÝ</a></div>
+        <div class="top_container" id="Login_Button"><a href="index.php?form=log"><i class="fa-solid fa-user"></i> &nbspĐĂNG NHẬP</a></div>
         <div class="top_container_name sub-menu-parent hidden" id="userMenu" ><i class="fa-solid fa-user"></i><span id="menuUsername">&nbspUser</span> 
             <ul class="sub-menu">
                 <li id="logoutButton" style="padding-top:10px ;padding-bottom:10px;display: block;" onclick="Logout()"><i class="fa-solid fa-right-to-bracket"></i>&nbspĐĂNG XUẤT</li>
@@ -46,5 +46,17 @@
         <div class="top_container" style="width: 30px;float: left;" onclick="menu2()"><i class="fas fa-bars" ></i></div>
         <div class="top_container" style="float: left;" id="Find_Button" onclick="findRE();"><i class="fa-brands fa-product-hunt"></i>&nbspTÌM KIẾM</div>
         <div class="name" style="width: 25%;" id='Find_Space'></div>
-       
+
+    <?php 
+    if(isset($_GET["form"])){
+        switch($_GET["form"]){
+            case 'log':
+                include_once "login.php";
+                break;
+            case 'sig':
+                include_once "signin.php";
+                break;
+        }
+    }
+    ?>        
 </div>

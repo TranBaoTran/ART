@@ -238,6 +238,12 @@ img {vertical-align: middle;}
     margin: 20px;
     background-color: white;
 }
+.singleSP{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 350px;
+}
 .SP_CON1{
     width: 50%;
     display: flex;
