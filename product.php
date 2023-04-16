@@ -8,16 +8,22 @@
     $LFirst='';
     $total;
 
+    $cate='';
+    $gen='';
+
     if(isset($_GET['gen'])){
         if(isset($_GET['category'])){
             $LFull="index.php?id=product&gen=".$_GET['gen']."&category=".$_GET['category']."&page={page}";
             $LFirst="index.php?id=product&gen=".$_GET['gen']."&category=".$_GET['category'];
             $total=$db->Table('sanpham')->ID($_GET['category'])->CountCate('malsp');
+            $gen.="&gen=".$_GET['gen'];
+            $cate.="&category=".$_GET['category'];
         }
         else{
             $LFull="index.php?id=product&gen=".$_GET['gen']."&page={page}";
             $LFirst="index.php?id=product&gen=".$_GET['gen'];
             $total=$db->Table('sanpham')->ID($_GET['gen'])->CountGen('theloai','malsp','malsp','macl');
+            $gen.="&gen=".$_GET['gen'];
         }
     }
     else{
@@ -69,6 +75,7 @@
 <div id="MENU_CONTAIN">
     <div class="MENU_SP" style="display: flex;" id="productWraper">
         <?php foreach ($member as $item){ 
+            $URL="id=product".$gen.$cate;
             echo "<div class='SP_CON shadow'>
             <div class='SP_CON1'>
                 <img src='".$item->img."'>
@@ -79,7 +86,7 @@
                     <a class='price'>".$item->gia." VNĐ</a><br>
                 </div>
                 <div style='padding-top: 20px;'>
-                    <a onclick='' class='btn'>Thêm vào giỏ</a>
+                    <a href='index.php?".$URL."&pr=".$item->masp."&click=clicked' class='btn'>Thêm vào giỏ</a>
                 </div>
             </div>
             </div>";
@@ -91,6 +98,12 @@
         <?php echo $paging->html(); ?>
     </div>
 </div>
+
+<?php 
+    if (isset($_GET['click'])) {
+        include "single.php";
+    }
+?>
 
 <script>
     $('#MENU_CONTAIN').on('click','#paging a', function ()
@@ -109,7 +122,7 @@
                              $.each(result['member'], function (key, item){
                                 html += "<div class='SP_CON shadow'><div class='SP_CON1'><img src='"+$item['img']+"></div>";
                                 html += "<div class='SP_CON2'><div><h3>"+$item['tensp']+"</h3><br><a class='price'>"+$item['gia']+" VNĐ</a><br></div>";
-                                html += "<div style='padding-top: 20px;'><a onclick='' class='btn'>Thêm vào giỏ</a></div></div></div>";
+                                html += "<div style='padding-top: 20px;'><a href='' class='btn'>Thêm vào giỏ</a></div></div></div>";
                              });
                               
                              $('#productWraper').html(html);

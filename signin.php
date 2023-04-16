@@ -1,3 +1,10 @@
+<?php 
+    $displayForm=TRUE;
+    if(isset($_POST['submit'])){
+        $displayForm=FALSE;
+    }
+    if($displayForm){
+?>
 <div class="form_background" style="padding-top: 130px;" id="SigninSpace">
             <div class="Login_Space" style="top:60px">
                 <div class="title">ĐĂNG KÝ<div id="close" onclick="close_log()">X</div>
@@ -34,12 +41,12 @@
                 </div>
                 <div class="Login_Block" style="padding-left: 30px; margin: 10px; color: #72828e;">Đã có tài khoản, chọn&nbsp<a style="color:#c94f7c;cursor: pointer;" href="index.php?form=log"> ĐĂNG NHẬP</a></div>
                 <div class="summit_space">
-                    <input type="submit" class="summit_button" value="ĐĂNG KÝ">
+                    <input type="submit" class="summit_button" name="submit" value="ĐĂNG KÝ">
                 </div>
             </div>
         </div>
     </div>
-
+<?php }?>
 <script>
     function close_log() {
         window.location.href="index.php";

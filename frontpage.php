@@ -21,7 +21,7 @@
                     <a class='price'>".$item->gia." VNĐ</a><br>
                 </div>
                 <div style='padding-top: 20px;'>
-                    <a onclick='' class='btn'>Thêm vào giỏ</a>
+                    <a href='index.php?pr=".$item->masp."&click=clicked' class='btn'>Thêm vào giỏ</a>
                 </div>
             </div>
             </div>";
@@ -29,6 +29,13 @@
         ?>
     </div>
 </div>
+
+<?php 
+    if (isset($_GET['click'])) {
+        include "single.php";
+    }
+?>
+
 <div class="banner">
         <a class='more' href="index.php?id=product">Xem thêm</a>
 </div>
