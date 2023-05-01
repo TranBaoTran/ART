@@ -1,6 +1,5 @@
 <?php 
     class database{
-
         protected $conn=null;
         protected $table='';
         protected $statement=null;
