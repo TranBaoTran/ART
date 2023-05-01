@@ -251,6 +251,7 @@ img {vertical-align: middle;}
     margin-top: 40px;
 }
 .SP_CON1 img{
+    width: 80%;
     height: 80%;
 }
 .SP_CON2{
@@ -314,6 +315,7 @@ img {vertical-align: middle;}
     text-align: center;
     background-color: #ff80ab;
     color: #fffeee;
+    z-index: 10;
 }
 .page_num.active{
     background-color:#c94f7c;

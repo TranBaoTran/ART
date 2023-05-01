@@ -10,6 +10,7 @@
 
     $cate='';
     $gen='';
+    $page='';
 
     if(isset($_GET['gen'])){
         if(isset($_GET['category'])){
@@ -30,6 +31,13 @@
         $LFull="index.php?id=product&page={page}";
         $LFirst="index.php?id=product";
         $total=$db->Table('sanpham')->CountAll();
+    }
+
+    if(isset($_GET['page'])){
+        $page="&page=".$_GET['page'];
+    }
+    else{
+        $page="&page=1";
     }
 
     $config = array(
@@ -57,16 +65,16 @@
     }
     else{
         $member = $db->Table('sanpham')->Limit($limit)->Offset($start)->Get();
-    }
- 
+    } 
+
+    $db->close();
+
     if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
         die (json_encode(array(
             'member' => $member,
             'paging' => $paging->html()
         )));
-    }
-
-    $db->close();
+    } 
 ?>
 
 <div class="banner">
@@ -75,7 +83,7 @@
 <div id="MENU_CONTAIN">
     <div class="MENU_SP" style="display: flex;" id="productWraper">
         <?php foreach ($member as $item){ 
-            $URL="id=product".$gen.$cate;
+            $URL="id=product".$gen.$cate.$page;
             echo "<div class='SP_CON shadow'>
             <div class='SP_CON1'>
                 <img src='".$item->img."'>
@@ -105,14 +113,14 @@
     }
 ?>
 
-<script>
-    $('#MENU_CONTAIN').on('click','#paging a', function ()
+<!-- <script>
+    $('#MENU_CONTAIN').on('click','#pageWraper a', function ()
              {
                  var url = $(this).attr('href');
-                  
+                 alert(url);
                  $.ajax({
                      url : url,
-                     type : 'get',
+                     type : "GET",
                      dataType : 'json',
                      success : function (result)
                      {
@@ -122,18 +130,22 @@
                              $.each(result['member'], function (key, item){
                                 html += "<div class='SP_CON shadow'><div class='SP_CON1'><img src='"+$item['img']+"></div>";
                                 html += "<div class='SP_CON2'><div><h3>"+$item['tensp']+"</h3><br><a class='price'>"+$item['gia']+" VNĐ</a><br></div>";
-                                html += "<div style='padding-top: 20px;'><a href='' class='btn'>Thêm vào giỏ</a></div></div></div>";
+                                html += "<div style='padding-top: 20px;'><a class='btn'>Thêm vào giỏ</a></div></div></div>";
                              });
                               
-                             $('#productWraper').html(html);
+                             $('#productWraper').html(html);s
                               
                              $('#pageWraper').html(result['paging']);
                               
                              window.history.pushState({path:url},'',url);
                          }
-                     }
+                     },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        console.log(thrownError);
+                        alert('Lỗi sml r đừng cố')
+                    },
                  });
                  return false;
              });
-</script>
+</script> -->
 

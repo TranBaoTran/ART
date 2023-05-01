@@ -49,5 +49,5 @@
     }
 
     seePass();
-    $('.Login_Space').children().unwrap().wrapAll("<form name='input' class='Login_Space' id='' action='' method='post'></form>");
+    $('.Login_Space').children().unwrap().wrapAll("<form name='input' class='Login_Space' id='' action='index.php' method='post'></form>");
 </script>

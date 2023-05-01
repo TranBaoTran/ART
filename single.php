@@ -13,7 +13,7 @@
 ?>
 
 <div class="form_background" id="LoginSpace">
-        <form class="Login_Space"  style="width:50%" method="post">
+        <form class="Login_Space"  style="width:50%" method="post" action="">
         <div class="title"><a id="close" href="javascript:history.go(-1)" style="text-decoration:none">X</a></div>
         <?php foreach ($member as $item){ 
             echo "<div class='singleSP'>

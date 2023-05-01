@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="css/cs_root.css">
+
 <?php 
     $displayForm=TRUE;
     if(isset($_POST['submit'])){
@@ -27,14 +29,17 @@
                 </div>
                 <div class="Login_Block">
                     <div class="Log_Space1">Mật khẩu</div>
-                    <div class="Log_Space2" style="padding-left:4px"><input type="password" placeholder="Nhập mật khẩu" id="pass">
+                    <div class="Log_Space2" style="padding-left:4px"><input type="password" placeholder="Nhập mật khẩu" id="pass" name="pass">
                         <div style="float:right; padding-top: 7px"><button class="" type="button" id="cmml">
                             <span class="fas fa-eye-slash"></span></button></div>
                     </div>
                 </div>
+                <div class="Login_Block" style="font-size:10px;color:red">
+                   <p style="margin-left:90px">* Mật khẩu có ít nhất 8 kí tự, có chữ thường, chữ viết hoa và số</p>
+                </div>
                 <div class="Login_Block">
                     <div class="Log_Space1"></div>
-                    <div class="Log_Space2" style="padding-left:4px"><input type="password" placeholder="Nhập lại mật khẩu" id="passag">
+                    <div class="Log_Space2" style="padding-left:4px"><input type="password" placeholder="Nhập lại mật khẩu" id="passag" name="passag">
                         <div style="float:right; padding-top: 7px"><button class="" type="button" id="cmmn">
                             <span class="fas fa-eye-slash"></span></button></div>
                     </div>
@@ -67,7 +72,73 @@
         })
     }
 
+    function check(){
+        const fulln=document.getElementById('fulln');
+        const phone=document.getElementById('phone');
+        const mail=document.getElementById('mail');
+        const logn=document.getElementById('logn');
+        const pass=document.getElementById('pass');
+        const passag=document.getElementById('passag');
+
+        var regTel=new RegExp(/^[0-9\-\+]{9,15}$/,"ig");
+        var regMail=new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/,"ig");
+        var regUName= new RegExp(/^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,"gm");
+        var regPass=new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,"gm");
+        var regName=new RegExp(/^[\w'\-,.][^0-9_!¡?÷?¿\\+=@#$%ˆ&*(){}|~<>;."^',`:[\]]{1,}$/,"gm");
+
+        if(fulln.value==''){
+            alert('Họ và tên không được trống');
+            fulln.focus();
+            return false;
+        }
+        if(phone.value==''){
+            alert('Số điện thoại không được trống');
+            phone.focus();
+            return false;
+        }
+        if(logn.value==''){
+            alert('Tên đăng nhập không được trống');
+            fulln.focus();
+            return false;
+        }
+        if(pass.value==''){
+            alert('Mật khẩu không được trống');
+            pass.focus();
+            return false;
+        }
+        if(passag.value==''){
+            alert('Vui lòng nhập lại mật khấu');
+            passag.focus();
+            return false;
+        }
+        if(!phone.value.trim().match(regTel)){
+            alert("Nhập sai số điện thoại");
+            phone.focus();
+            return false;
+        }
+        if(!mail.value.trim().match(regMail)){
+            alert("Nhập sai email");
+            mail.focus();
+            return false;
+        }
+        if(!logn.value.trim().match(regUName)){
+            alert("Nhập sai tên tài khoản");
+            logn.focus();
+            return false;
+        }
+        if(!pass.value.trim().match(regPass)){
+            alert("Nhập sai mật khẩu");
+            pass.focus();
+            return false;
+        }
+        if(pass.value.trim()!=passag.value.trim()){
+            alert("Mật khẩu nhập lại không giống");
+            passag.focus();
+            return false;
+        }
+    }
+
     seePass("pass","cmml");
     seePass("passag","cmmn");
-    $('.Login_Space').children().unwrap().wrapAll("<form name='input' class='Login_Space' style='top:60px' id='' action='' method='post'></form>");
+    $('.Login_Space').children().unwrap().wrapAll("<form name='input' class='Login_Space' style='top:60px' id='' action='checksig.php' method='post' onsubmit='return check()'></form>");
 </script>

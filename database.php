@@ -111,7 +111,7 @@
             return $returnData;
         }
 
-        public function Insert($date=[]){
+        public function Insert($data=[]){
             $key= array_keys($data);
             $field=implode(',',$key);
             $questionMark=array_fill(0,count($data),'?');
@@ -128,6 +128,30 @@
             $this->ResetQuery();
 
             return $this->statement->affected_rows;
+        }
+
+        public function InsertTK($data=[]){
+            $sql = "insert into taikhoan (tendn,matkhau,ngaytao,nhomquyen,tinhtrang) values (?,?,NOW(),?,1)";
+            $this->statement= $this->conn->prepare($sql);
+            $values=array_values($data);
+            $this->statement->bind_param('sss', ...$values);
+            $this->statement->execute();
+            $this->ResetQuery();
+
+            return $this->statement->affected_rows;
+
+        }
+
+        public function InsertKH($data=[]){
+            $sql = "insert into khachhang (matk,hoten,sdt,mail,tinhtrang) values (?,?,?,?,1)";
+            $this->statement= $this->conn->prepare($sql);
+            $values=array_values($data);
+            $this->statement->bind_param('isss', ...$values);
+            $this->statement->execute();
+            $this->ResetQuery();
+
+            return $this->statement->affected_rows;
+
         }
 
         public function UpdateRow($id,$data = []){
@@ -184,6 +208,16 @@
             return 0;
         }
 
+        public function Take($sql){
+            $query= mysqli_query($this->conn,$sql);
+            $this->ResetQuery();
+            if ($query){
+                $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
+                return $row['total'];
+            }
+            return "";
+        }
+
         public function NotPrepare($sql){
             $query= mysqli_query($this->conn,$sql);
             $this->ResetQuery();
@@ -197,13 +231,43 @@
             return $returnData;
         }
 
+        public function check($sql){
+            $query= mysqli_query($this->conn,$sql);
+            $this->ResetQuery();
+            if(mysqli_num_rows($query) > 0){
+                return -1;
+            }
+
+            return 0;
+        }
+
         public function DeleteID($ID){
             $sql="delete from $this->table where id=?";
-            $this->statement=$this->connection->prepare($sql);
+            $this->statement=$this->conn->prepare($sql);
             $this->statement->bind_param('i',$ID);
             $this->statement->execute();
             $this->ResetQuery();
             return $this->statement->affected_rows;
+        }
+
+        public function getName($name,$pass){
+            $sql="select * from taikhoan where tendn=?";
+            $this->statement=$this->conn->prepare($sql);
+            $this->statement->bind_param('s',$name);
+            $this->statement->execute();
+            $this->ResetQuery();
+            $result=$this->statement->get_result();
+            if($row=$result->fetch_object()){
+                if($row->matkhau==$pass){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                return false;
+            }
         }
 
         public function Close(){
