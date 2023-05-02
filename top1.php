@@ -1,3 +1,10 @@
+<?php 
+    include_once "database.php";
+    $cl="";
+    $db=new database();
+    $sql="select";
+    $db->Close();
+?>
 <style>
 .top_container a{
     text-decoration:none;
@@ -10,9 +17,9 @@
 <script>
     function findRE(){
     const FP = document.getElementById("Find_Space");
-    FP.innerHTML = '<input id="txtInput" type="text" style="width:40%" placeholder="Nhập sản phẩm muốn tìm" onload="makeFocus();">' +
+    FP.innerHTML = '<input id="txtInput" type="text" style="width:30%" placeholder="Nhập sản phẩm muốn tìm" onload="makeFocus();">' +
         '<select id="brandInput" style="width:20%; height:35px; margin-left:5px"><option value=0>--Hãng--</option><option value=1>Innisfree</option><option value=2>Maybelline</option><option value=3>Hadalabo</option></select>' +
-        '<select id="priceInput" style="width:30%; height:35px; margin-left:5px"><option value=0>--Giá tiền--</option><option value=1>Dưới 100.000 VNĐ</option><option value=2>Dưới 500.000 VNĐ</option><option value=3>Dưới 1.000.000 VNĐ</option><option value=4>Trên 1.000.000 VNĐ</option></select>' +
+        '<select id="priceInput" style="width:20%; height:35px; margin-left:5px"><option value=0>--Giá tiền--</option><option value=1>Dưới 100.000 VNĐ</option><option value=2>Dưới 500.000 VNĐ</option><option value=3>Dưới 1.000.000 VNĐ</option><option value=4>Trên 1.000.000 VNĐ</option></select>' +
         '<a class="findBtn" onclick="renderNBP(1);" ><i class="fa-solid fa-magnifying-glass"></i></a>';
     }
 
@@ -45,7 +52,7 @@
         </div>
         <div class="top_container" style="width: 30px;float: left;" onclick="menu2()"><i class="fas fa-bars" ></i></div>
         <div class="top_container" style="float: left;" id="Find_Button" onclick="findRE();"><i class="fa-brands fa-product-hunt"></i>&nbspTÌM KIẾM</div>
-        <div class="name" style="width: 25%;" id='Find_Space'></div>
+        <div class="name" style="width: 35%;" id='Find_Space'></div>
 
     <?php 
     if(isset($_GET["form"])){

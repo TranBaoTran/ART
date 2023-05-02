@@ -115,7 +115,7 @@ ul.submenu > li:hover > a {
             <?php 
                     include_once "database.php";
                     $arr=[];
-                    $sql="select * from chungloai ";
+                    $sql="select * from chungloai where tinhtrang=1";
                     $result=Connection::executeQuery($sql);
                     while($row=mysqli_fetch_array($result)){
                         $arr[]=$row[1];
@@ -124,7 +124,7 @@ ul.submenu > li:hover > a {
                     echo "<ul class='dropdown_menu'>";
                     for($i=0;$i<count($arr);$i+=1){
                         echo "<li>";
-                        $smallSql="select * from theloai where macl='".$sign[$i]."'";
+                        $smallSql="select * from theloai where macl='".$sign[$i]."' and theloai.tinhtrang=1";
                         $result=Connection::executeQuery($smallSql);
                         if($result!=null){
                             $ar=[];

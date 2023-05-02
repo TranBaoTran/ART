@@ -57,7 +57,7 @@
         }
 
         public function Get(){
-            $sql="select * from $this->table limit ? offset ?";
+            $sql="select * from $this->table where sanpham.tinhtrang=1 limit ? offset ? ";
             $this->statement= $this->conn->prepare($sql);
             $this->statement->bind_param('ii',$this->limit,$this->offset);
             $this->statement->execute();
@@ -75,7 +75,7 @@
         }
 
         public function GetGen($name){
-            $sql="select * from sanpham join theloai on sanpham.malsp=theloai.malsp where macl='".$name."' limit ? offset ?";
+            $sql="select * from sanpham join theloai on sanpham.malsp=theloai.malsp where macl='".$name."' and sanpham.tinhtrang=1 limit ? offset ?";
             $this->statement= $this->conn->prepare($sql);
             $this->statement->bind_param('ii',$this->limit,$this->offset);
             $this->statement->execute();
@@ -93,7 +93,7 @@
         }
 
         public function GetCate($name){
-            $sql="select * from sanpham where malsp='".$name."' limit ? offset ?";
+            $sql="select * from sanpham where malsp='".$name."' and sanpham.tinhtrang=1 limit ? offset ?";
             $this->statement= $this->conn->prepare($sql);
             $this->statement->bind_param('ii',$this->limit,$this->offset);
             $this->statement->execute();
@@ -175,7 +175,7 @@
         }
 
         public function CountAll(){
-            $sql="select count(*) as total from $this->table";
+            $sql="select count(*) as total from $this->table where sanpham.tinhtrang=1";
             $query= mysqli_query($this->conn,$sql);
             $this->ResetQuery();
             if ($query){
@@ -186,7 +186,7 @@
         }
 
         public function CountCate($col){
-            $sql="select count(*) as total from $this->table where $col = '$this->ID'";
+            $sql="select count(*) as total from $this->table where $col = '$this->ID' and sanpham.tinhtrang=1";
             $query= mysqli_query($this->conn,$sql);
             $this->ResetQuery();
             if ($query){
@@ -197,7 +197,7 @@
         }
 
         public function CountGen($tab,$col1,$col2,$col3){
-            $sql="select count(*) as total from $this->table join $tab on $this->table.$col1=$tab.$col2 where $tab.$col3 = '$this->ID'";
+            $sql="select count(*) as total from $this->table join $tab on $this->table.$col1=$tab.$col2 where $tab.$col3 = '$this->ID' and sanpham.tinhtrang=1";
             $query= mysqli_query($this->conn,$sql);
             $this->ResetQuery();
             if ($query){
