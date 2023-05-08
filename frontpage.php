@@ -1,6 +1,6 @@
 <?php 
     $db=new Database();
-    $sql="select * from sanpham order by slmua desc limit 9 offset 0";
+    $sql="select * from sanpham where tinhtrang=1 order by slmua desc limit 9 offset 0";
     $member = $db->NotPrepare($sql);
     $db->close();
 ?>

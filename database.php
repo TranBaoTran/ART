@@ -110,6 +110,37 @@
             return $returnData;
         }
 
+        public function getFind($name,$type,$min,$max){
+            $sql="select * from sanpham ";
+            if($type==""){
+                $sql.="where tensp like concat('%',?,'%') and malsp like concat('%',?,'%') and gia>=? and gia<=? ";
+                $gen="";
+            }
+            else if(substr($type, 0, 1)=="+"){
+                $gen=substr($type, 1);
+                $sql.="join theloai on sanpham.malsp=theloai.malsp where tensp like concat('%',?,'%') and macl=? and gia>=? and gia<=? ";
+            }
+            else{
+                $gen=substr($type, 1);
+                $sql.="where tensp like concat('%',?,'%') and malsp=? and gia>=? and gia<=? ";
+            }
+            $sql.="and sanpham.tinhtrang=1 limit ? offset ?";
+            $this->statement= $this->conn->prepare($sql);
+            $this->statement->bind_param('ssddii',$name,$gen,$min,$max,$this->limit,$this->offset);
+            $this->statement->execute();
+            $this->ResetQuery();
+
+            $result=$this->statement->get_result();
+
+            $returnData=[];
+
+            while ($row = $result->fetch_object()){
+                $returnData[]=$row;
+            }
+
+            return $returnData;
+        } 
+
         public function Insert($data=[]){
             $key= array_keys($data);
             $field=implode(',',$key);
@@ -207,6 +238,34 @@
             return 0;
         }
 
+        public function countFind($name,$type,$min,$max){
+            $sql="select count(*) as total from sanpham ";
+            if($type==""){
+                $sql.="where tensp like concat('%',?,'%') and malsp like concat('%',?,'%') and gia>=? and gia<=? ";
+                $gen="";
+            }
+            else if(substr($type, 0, 1)=="+"){
+                $gen=substr($type, 1);
+                $sql.="join theloai on sanpham.malsp=theloai.malsp where tensp like concat('%',?,'%') and macl=? and gia>=? and gia<=? ";
+            }
+            else{
+                $gen=substr($type, 1);
+                $sql.="where tensp like concat('%',?,'%') and malsp=? and gia>=? and gia<=? ";
+            }
+            $sql.="and sanpham.tinhtrang=1";
+            $this->statement= $this->conn->prepare($sql);
+            $this->statement->bind_param('ssdd',$name,$gen,$min,$max);
+            $this->statement->execute();
+            $this->ResetQuery();
+
+            $result=$this->statement->get_result();
+            if ($result){
+                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                return $row['total'];
+            }
+            return 0;
+        }
+
         public function Take($sql){
             $query= mysqli_query($this->conn,$sql);
             $this->ResetQuery();
@@ -268,6 +327,8 @@
                 return false;
             }
         }
+
+           
 
         public function Close(){
             $this->conn->close();

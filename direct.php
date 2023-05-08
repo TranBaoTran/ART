@@ -9,6 +9,9 @@
             case 'product':
                 include "product.php";
                 break;
+            case 'find':
+                include "find.php";
+                break;
             case 'cart':
                 break;
         }

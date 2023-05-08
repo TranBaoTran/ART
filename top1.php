@@ -1,10 +1,3 @@
-<?php 
-    include_once "database.php";
-    $cl="";
-    $db=new database();
-    $sql="select";
-    $db->Close();
-?>
 <style>
 .top_container a{
     text-decoration:none;
@@ -13,15 +6,9 @@
 .top_container a:hover{
     color:#ff80ab;
 }
+
 </style>
 <script>
-    function findRE(){
-    const FP = document.getElementById("Find_Space");
-    FP.innerHTML = '<input id="txtInput" type="text" style="width:30%" placeholder="Nhập sản phẩm muốn tìm" onload="makeFocus();">' +
-        '<select id="brandInput" style="width:20%; height:35px; margin-left:5px"><option value=0>--Hãng--</option><option value=1>Innisfree</option><option value=2>Maybelline</option><option value=3>Hadalabo</option></select>' +
-        '<select id="priceInput" style="width:20%; height:35px; margin-left:5px"><option value=0>--Giá tiền--</option><option value=1>Dưới 100.000 VNĐ</option><option value=2>Dưới 500.000 VNĐ</option><option value=3>Dưới 1.000.000 VNĐ</option><option value=4>Trên 1.000.000 VNĐ</option></select>' +
-        '<a class="findBtn" onclick="renderNBP(1);" ><i class="fa-solid fa-magnifying-glass"></i></a>';
-    }
 
     function menu2() {
         var M2 = document.getElementById("top2");
@@ -36,6 +23,11 @@
         location.href='index.php';
     }
     
+
+    function close_log(){
+        var fs= document.getElementById("outCon");
+        fs.style.display = 'none';
+    }
 </script>
 <div class="top">
         <div class="top_container" id="noneCart" onclick="noAcc()"><i class="fa-solid fa-cart-shopping"></i> &nbspGIỎ HÀNG</i></div>
@@ -51,9 +43,7 @@
             <img src="img/logo1.png" style="top:0;margin: 0;padding: 0;height: 50px;">
         </div>
         <div class="top_container" style="width: 30px;float: left;" onclick="menu2()"><i class="fas fa-bars" ></i></div>
-        <div class="top_container" style="float: left;" id="Find_Button" onclick="findRE();"><i class="fa-brands fa-product-hunt"></i>&nbspTÌM KIẾM</div>
-        <div class="name" style="width: 35%;" id='Find_Space'></div>
-
+        <div class="top_container" style="float: left;" id="Find_Button"><a href="index.php?id=find"><i class="fa-brands fa-product-hunt"></i>&nbspTÌM KIẾM</a></div>
     <?php 
     if(isset($_GET["form"])){
         switch($_GET["form"]){
@@ -67,3 +57,72 @@
     }
     ?>        
 </div>
+<!-- 
+<script>
+    function renderP(currentPage,allPage){
+        let html="";
+        let start=1;
+        let end=5;
+        if(currentPage-2>0){
+            start=currentPage-2;
+            end=currentPage+2;
+        }
+        if(currentPage+2>allPage){
+            start=allPage-4;
+            end=allPage;
+        }
+        if(allPage<=5){
+            start=1;
+            end=allPage;
+        }
+        if(currentPage>1){
+            html+="<a href='#/'><div class='page_num' onclick='find(1,"+limit+")'><i class='fa-solid fa-angles-left'></i></div></a> ";
+            html+="<a href='#/'><div class='page_num' onclick='getPro("+(currentPage-1)+","+limit+")'><i class='fa-solid fa-angle-left'></i></div></a> ";
+        }
+        for(let i=start;i<=end;i++){
+            html+="<a href='#/'><div class='page_num";
+            if(i==currentPage){
+                html+=" active'>"+i+"</div></a> ";
+            }
+            else{
+                html+="' onclick='find("+i+","+limit+")'>"+i+"</div></a> ";
+            }
+        }
+        if(currentPage<allPage){
+            html+="<a href='#/'><div class='page_num' onclick='getPro("+(currentPage+1)+","+limit+")'><i class='fa-solid fa-angle-right'></i></div></a> ";
+            html+="<a href='#/'><div class='page_num' onclick='getPro("+allPage+","+limit+")'><i class='fa-solid fa-angles-right'></i></div></a> ";
+        }
+        $("#pageWraper").html(html); 
+    }
+
+    function find(page=1,limit=9){
+        var name=document.getElementById("name").value;
+        var type=document.getElementById("type").value;
+        var minRanger=document.getElementById("minRanger").value;
+        var maxRanger=document.getElementById("maxRanger").value;
+        var now=window.location.href;
+        if(!now.includes("id=product")){
+            window.location.href="index.php?id=product";
+        }
+        $.ajax({
+          url:"/ART/api/getFind.php?name="+name+"&type="+type+"&min="+minRanger+"&max="+maxRanger+"&limit="+limit+"&page="+page,
+          type: "GET",
+          dataType: 'json',
+            success : function (result){
+                var html="";
+                $.each(result['member'], function (key, item){
+                                html += "<div class='SP_CON shadow'><div class='SP_CON1'><img src='"+item['img']+"'></div>";
+                                html += "<div class='SP_CON2'><div><h3>"+item['tensp']+"</h3><br><a class='price'>"+item['gia']+" VNĐ</a><br></div>";
+                                html += "<div style='padding-top: 20px;'><a class='btn' >Thêm vào giỏ</a></div></div></div>";
+                             });             
+                $('#productWraper').html(html);
+                $('#outCon').css('display', 'none');
+                renderP(result.current_page,result.allPage,result.limit);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                        console.log(thrownError);
+                        alert('Lỗi sml r đừng cố');
+            },
+        });
+    }
+</script> -->
