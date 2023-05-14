@@ -116,7 +116,7 @@
                 $sql.="where tensp like concat('%',?,'%') and malsp like concat('%',?,'%') and gia>=? and gia<=? ";
                 $gen="";
             }
-            else if(substr($type, 0, 1)=="+"){
+            else if(substr($type, 0, 1)=="0"){
                 $gen=substr($type, 1);
                 $sql.="join theloai on sanpham.malsp=theloai.malsp where tensp like concat('%',?,'%') and macl=? and gia>=? and gia<=? ";
             }
@@ -244,7 +244,7 @@
                 $sql.="where tensp like concat('%',?,'%') and malsp like concat('%',?,'%') and gia>=? and gia<=? ";
                 $gen="";
             }
-            else if(substr($type, 0, 1)=="+"){
+            else if(substr($type, 0, 1)=="0"){
                 $gen=substr($type, 1);
                 $sql.="join theloai on sanpham.malsp=theloai.malsp where tensp like concat('%',?,'%') and macl=? and gia>=? and gia<=? ";
             }
@@ -289,6 +289,17 @@
             return $returnData;
         }
 
+        public function getOne($sql){
+            $query= mysqli_query($this->conn,$sql);
+            $this->ResetQuery();
+
+            while ($row = $query->fetch_object()){
+                $returnData=$row;
+            }
+
+            return $returnData;
+        }
+
         public function check($sql){
             $query= mysqli_query($this->conn,$sql);
             $this->ResetQuery();
@@ -309,22 +320,25 @@
         }
 
         public function getName($name,$pass){
-            $sql="select * from taikhoan where tendn=?";
+            $sql="select * from taikhoan where tendn=? and tinhtrang=1";
             $this->statement=$this->conn->prepare($sql);
             $this->statement->bind_param('s',$name);
             $this->statement->execute();
             $this->ResetQuery();
             $result=$this->statement->get_result();
+            $password = md5($pass);
+            // echo "$password";
             if($row=$result->fetch_object()){
-                if($row->matkhau==$pass){
-                    return true;
+                $temp=$row->matkhau;
+                if($temp==$password){
+                    return intval($row->matk);
                 }
                 else{
-                    return false;
+                    return 0;
                 }
             }
             else{
-                return false;
+                return -1;
             }
         }
 

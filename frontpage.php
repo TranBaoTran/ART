@@ -21,7 +21,7 @@
                     <a class='price'>".$item->gia." VNĐ</a><br>
                 </div>
                 <div style='padding-top: 20px;'>
-                    <a href='index.php?pr=".$item->masp."&click=clicked' class='btn'>Thêm vào giỏ</a>
+                    <a onclick='singlePage(\"".$item->img."\",\"".$item->tensp."\",".$item->gia.",".$item->soluong.",".$item->masp.")' class='btn'>Thêm vào giỏ</a>
                 </div>
             </div>
             </div>";

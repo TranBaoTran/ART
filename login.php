@@ -1,11 +1,4 @@
-<?php 
-    $displayForm=TRUE;
-    if(isset($_POST['submit'])){
-        $displayForm=FALSE;
-    }
-    if($displayForm){
-?>
-        <div class="form_background" id="LoginSpace">
+<div class="form_background" id="LoginSpace">
             <div class="Login_Space">
                 <div class="title">ĐĂNG NHẬP<div id="close" onclick="close_log()">X</div>
                 </div>
@@ -26,7 +19,6 @@
                 </div>
             </div>
         </div>
-<?php }?>
 
 <script>
     function close_log() {
@@ -48,6 +40,48 @@
         })
     }
 
+    function login(){
+        var uname=document.getElementById('logna').value;
+        var upass=document.getElementById('passw').value;
+        $.ajax({
+            url:'/ART/api/getLog.php',
+            type: "POST",
+            dataType: "text",
+            data:{
+                username: uname,
+                password: upass
+            },
+            success : function (data){
+                if(data=="-3"){
+                    alert("Chưa nhập tên tài khoản");
+                }
+                else if (data=="-2"){
+                    alert("Chưa nhập mật khẩu");
+                }
+                else if (data=="-1"){
+                    alert("Tài khoản này không tồn tạo");
+                }
+                else if (data=="0"){
+                    alert("Nhập sai mật khẩu");
+                }
+                else{
+                    alert("Đăng nhập thành công");
+                    if(data=="KH"){
+                        window.location.href = 'index.php';
+                    }
+                    else{
+                        window.location.href = 'admin.php';
+                    }
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                        console.log(thrownError);
+                        alert('Lỗi sml r đừng cố');
+            },
+        });     
+    }
+
     seePass();
-    $('.Login_Space').children().unwrap().wrapAll("<form name='input' class='Login_Space' id='' action='index.php' method='post'></form>");
+    $('.Login_Space').children().unwrap().wrapAll("<form name='input' class='Login_Space' id='myForm' onsubmit='login();' method='post'></form>");
+
 </script>

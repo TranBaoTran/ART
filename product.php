@@ -11,11 +11,6 @@
     </div>
     </div>
 <script>
-    function createParameter(value){
-        if(value != null)  return `"${value}"`;
-        return null;
-    }
-
     function renderPagination(currentPage,allPage,limit,gen,cate){
         let html="";
         let start=1;
@@ -78,7 +73,7 @@
                 $.each(result['member'], function (key, item){
                                 html += "<div class='SP_CON shadow'><div class='SP_CON1'><img src='"+item['img']+"'></div>";
                                 html += "<div class='SP_CON2'><div><h3>"+item['tensp']+"</h3><br><a class='price'>"+item['gia']+" VNĐ</a><br></div>";
-                                html += "<div style='padding-top: 20px;'><a class='btn' >Thêm vào giỏ</a></div></div></div>";
+                                html += "<div style='padding-top: 20px;'><a class='btn' onclick='singlePage(\""+item['img']+"\",\""+item['tensp']+"\","+item['gia']+","+item['soluong']+","+item['masp']+")' >Thêm vào giỏ</a></div></div></div>";
                              });             
                 $('#productWraper').html(html);
                 renderPagination(result.current_page,result.allPage,result.limit,gen,cate);           

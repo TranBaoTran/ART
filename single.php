@@ -12,7 +12,7 @@
         $db->close();
 ?>
 
-<div class="form_background" id="LoginSpace">
+<div class="form_background" id="singlePage">
         <form class="Login_Space"  style="width:50%" method="post" action="">
         <div class="title"><a id="close" href="javascript:history.go(-1)" style="text-decoration:none">X</a></div>
         <?php foreach ($member as $item){ 

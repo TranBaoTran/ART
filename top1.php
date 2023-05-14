@@ -30,15 +30,30 @@
     }
 </script>
 <div class="top">
-        <div class="top_container" id="noneCart" onclick="noAcc()"><i class="fa-solid fa-cart-shopping"></i> &nbspGIỎ HÀNG</i></div>
-        <div class="top_container hidden" id="userCart" onclick="goCart()"><a href="index.php?id=cart"><i class="fa-solid fa-cart-shopping"></i> &nbspGIỎ HÀNG</i><a></div>
-        <div class="top_container" id="Signin_Button"><a href="index.php?form=sig"><i class="fa-solid fa-right-to-bracket"></i>&nbspĐĂNG KÝ</a></div>
+        <div class="top_container" id="userCart" onclick="goCart()"><a href="index.php?id=cart"><i class="fa-solid fa-cart-shopping"></i> &nbspGIỎ HÀNG</i><a></div>
+        <?php 
+        session_start();
+        if(isset($_SESSION['hoten']) && $_SESSION['hoten']){
+            $html='<div class="top_container_name sub-menu-parent" id="userMenu" ><i class="fa-solid fa-user"></i><span id="menuUsername">&nbsp'.$_SESSION['hoten'].'</span> 
+                        <ul class="sub-menu">
+                            <li id="logoutButton" style="padding-top:10px ;padding-bottom:10px;display: block;" onclick="LogOut()"><i class="fa-solid fa-right-to-bracket"></i>&nbspĐĂNG XUẤT</li>
+                        <ul>
+                    </div>';
+            echo $html;
+        }
+        else{
+            $html='<div class="top_container" id="Signin_Button"><a href="index.php?form=sig"><i class="fa-solid fa-right-to-bracket"></i>&nbspĐĂNG KÝ</a></div>
+            <div class="top_container" id="Login_Button"><a href="index.php?form=log"><i class="fa-solid fa-user"></i> &nbspĐĂNG NHẬP</a></div>';
+            echo $html;
+        }
+        ?>
+        <!-- <div class="top_container" id="Signin_Button"><a href="index.php?form=sig"><i class="fa-solid fa-right-to-bracket"></i>&nbspĐĂNG KÝ</a></div>
         <div class="top_container" id="Login_Button"><a href="index.php?form=log"><i class="fa-solid fa-user"></i> &nbspĐĂNG NHẬP</a></div>
         <div class="top_container_name sub-menu-parent hidden" id="userMenu" ><i class="fa-solid fa-user"></i><span id="menuUsername">&nbspUser</span> 
             <ul class="sub-menu">
                 <li id="logoutButton" style="padding-top:10px ;padding-bottom:10px;display: block;" onclick="Logout()"><i class="fa-solid fa-right-to-bracket"></i>&nbspĐĂNG XUẤT</li>
             <ul>
-        </div>
+        </div> -->
         <div class="top_container_name" style="float: left;width:200px;cursor: pointer;" onclick="HOME();">
             <img src="img/logo1.png" style="top:0;margin: 0;padding: 0;height: 50px;">
         </div>
@@ -57,67 +72,17 @@
     }
     ?>        
 </div>
-<!-- 
-<script>
-    function renderP(currentPage,allPage){
-        let html="";
-        let start=1;
-        let end=5;
-        if(currentPage-2>0){
-            start=currentPage-2;
-            end=currentPage+2;
-        }
-        if(currentPage+2>allPage){
-            start=allPage-4;
-            end=allPage;
-        }
-        if(allPage<=5){
-            start=1;
-            end=allPage;
-        }
-        if(currentPage>1){
-            html+="<a href='#/'><div class='page_num' onclick='find(1,"+limit+")'><i class='fa-solid fa-angles-left'></i></div></a> ";
-            html+="<a href='#/'><div class='page_num' onclick='getPro("+(currentPage-1)+","+limit+")'><i class='fa-solid fa-angle-left'></i></div></a> ";
-        }
-        for(let i=start;i<=end;i++){
-            html+="<a href='#/'><div class='page_num";
-            if(i==currentPage){
-                html+=" active'>"+i+"</div></a> ";
-            }
-            else{
-                html+="' onclick='find("+i+","+limit+")'>"+i+"</div></a> ";
-            }
-        }
-        if(currentPage<allPage){
-            html+="<a href='#/'><div class='page_num' onclick='getPro("+(currentPage+1)+","+limit+")'><i class='fa-solid fa-angle-right'></i></div></a> ";
-            html+="<a href='#/'><div class='page_num' onclick='getPro("+allPage+","+limit+")'><i class='fa-solid fa-angles-right'></i></div></a> ";
-        }
-        $("#pageWraper").html(html); 
-    }
 
-    function find(page=1,limit=9){
-        var name=document.getElementById("name").value;
-        var type=document.getElementById("type").value;
-        var minRanger=document.getElementById("minRanger").value;
-        var maxRanger=document.getElementById("maxRanger").value;
-        var now=window.location.href;
-        if(!now.includes("id=product")){
-            window.location.href="index.php?id=product";
-        }
+<script>
+    function LogOut(){
         $.ajax({
-          url:"/ART/api/getFind.php?name="+name+"&type="+type+"&min="+minRanger+"&max="+maxRanger+"&limit="+limit+"&page="+page,
-          type: "GET",
-          dataType: 'json',
-            success : function (result){
-                var html="";
-                $.each(result['member'], function (key, item){
-                                html += "<div class='SP_CON shadow'><div class='SP_CON1'><img src='"+item['img']+"'></div>";
-                                html += "<div class='SP_CON2'><div><h3>"+item['tensp']+"</h3><br><a class='price'>"+item['gia']+" VNĐ</a><br></div>";
-                                html += "<div style='padding-top: 20px;'><a class='btn' >Thêm vào giỏ</a></div></div></div>";
-                             });             
-                $('#productWraper').html(html);
-                $('#outCon').css('display', 'none');
-                renderP(result.current_page,result.allPage,result.limit);
+            url: "/ART/api/logOut.php",
+            type: "POST",
+            dataType: 'json',
+            success : function (response){
+                if (response.status === 'success') {
+                             window.location.href = 'index.php';
+                }
             },
             error: function(xhr, ajaxOptions, thrownError) {
                         console.log(thrownError);
@@ -125,4 +90,5 @@
             },
         });
     }
-</script> -->
+</script>
+

@@ -10,7 +10,7 @@
         $sign[]=$row[0];
     }
     for($i=0;$i<count($arr);$i+=1){
-        $html.="<option value='+".$sign[$i]."'>+".$arr[$i]."</option>";
+        $html.="<option value='0".$sign[$i]."'>+".$arr[$i]."</option>";
         $smallSql="select * from theloai where macl='".$sign[$i]."' and theloai.tinhtrang=1";
         $result=Connection::executeQuery($smallSql);
         if($result!=null){
@@ -21,7 +21,7 @@
                 $si[]=$row[0];
             }
             for($j=0;$j<count($ar);$j+=1){
-                $html.="<option value='-".$si[$j]."'>&nbsp&nbsp-".$ar[$j]."</option>";
+                $html.="<option value='1".$si[$j]."'>&nbsp&nbsp-".$ar[$j]."</option>";
             }
         }
     }
@@ -237,22 +237,24 @@ div[slider] > input[type=range]::-ms-tooltip {
                 </div>
             </div>
                 <input type="range" id="minRanger" value="<?php echo $min?>" max="<?php echo $max?>" min="<?php echo $min?>" step="1" oninput="
-                this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);
-                let value = (this.value/parseInt(this.max))*100
-                var children = this.parentNode.childNodes[1].childNodes;
-                children[1].style.width=value+'%';
-                children[5].style.left=value+'%';
-                children[7].style.left=value+'%';children[11].style.left=value+'%';
-                children[11].childNodes[1].innerHTML=this.value;" />
+                // this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);
+                // let value = (this.value/parseInt(this.max))*100
+                // var children = this.parentNode.childNodes[1].childNodes;
+                // children[1].style.width=value+'%';
+                // children[5].style.left=value+'%';
+                // children[7].style.left=value+'%';children[11].style.left=value+'%';
+                // children[11].childNodes[1].innerHTML=this.value;
+                handleMinRangerInput(this.value)" />
 
                 <input type="range" id="maxRanger"  value="<?php echo $max?>" max="<?php echo $max?>" min="<?php echo $min?>" step="1" oninput="
-                this.value=Math.max(this.value,this.parentNode.childNodes[3].value-(-1));
-                let value = (this.value/parseInt(this.max))*100
-                var children = this.parentNode.childNodes[1].childNodes;
-                children[3].style.width=(100-value)+'%';
-                children[5].style.right=(100-value)+'%';
-                children[9].style.left=value+'%';children[13].style.left=value+'%';
-                children[13].childNodes[1].innerHTML=this.value;" />
+                // this.value=Math.max(this.value,this.parentNode.childNodes[3].value-(-1));
+                // let value = (this.value/parseInt(this.max))*100
+                // var children = this.parentNode.childNodes[1].childNodes;
+                // children[3].style.width=(100-value)+'%';
+                // children[5].style.right=(100-value)+'%';
+                // children[9].style.left=value+'%';children[13].style.left=value+'%';
+                // children[13].childNodes[1].innerHTML=this.value;
+                handleMaxRangerInput(this.value)" />
             </div>    
         </div>
         <div class="boxrd">
@@ -269,10 +271,7 @@ div[slider] > input[type=range]::-ms-tooltip {
     </div>
     </div>
 <script>
-    function renderP(currentPage,allPage,limit){
-        console.log(currentPage)
-        console.log(allPage)
-        console.log(limit)
+    function renderP(currentPage,allPage,limit,name,type,min,max){
         let html="";
         let start=1;
         let end=5;
@@ -289,8 +288,8 @@ div[slider] > input[type=range]::-ms-tooltip {
             end=allPage;
         }
         if(currentPage>1){
-            html+="<a href='#/'><div class='page_num' onclick='find(1,"+limit+")'><i class='fa-solid fa-angles-left'></i></div></a> ";
-            html+="<a href='#/'><div class='page_num' onclick='find("+(currentPage-1)+","+limit+")'><i class='fa-solid fa-angle-left'></i></div></a> ";
+            html+="<a href='#/'><div class='page_num' onclick='find(1,"+limit+","+createParameter(name)+","+createParameter(type)+","+createParameter(min)+","+createParameter(max)+")'><i class='fa-solid fa-angles-left'></i></div></a> ";
+            html+="<a href='#/'><div class='page_num' onclick='find("+(currentPage-1)+","+limit+","+createParameter(name)+","+createParameter(type)+","+createParameter(min)+","+createParameter(max)+")'><i class='fa-solid fa-angle-left'></i></div></a> ";
         }
         for(let i=start;i<=end;i++){
             html+="<a href='#/'><div class='page_num";
@@ -298,23 +297,63 @@ div[slider] > input[type=range]::-ms-tooltip {
                 html+=" active'>"+i+"</div></a> ";
             }
             else{
-                html+="' onclick='find("+i+","+limit+")'>"+i+"</div></a> ";
+                html+="' onclick='find("+i+","+limit+","+createParameter(name)+","+createParameter(type)+","+createParameter(min)+","+createParameter(max)+")'>"+i+"</div></a> ";
             }
         }
         if(currentPage<allPage){
-            html+="<a href='#/'><div class='page_num' onclick='find("+(currentPage+1)+","+limit+")'><i class='fa-solid fa-angle-right'></i></div></a> ";
-            html+="<a href='#/'><div class='page_num' onclick='find("+allPage+","+limit+")'><i class='fa-solid fa-angles-right'></i></div></a> ";
+            html+="<a href='#/'><div class='page_num' onclick='find("+(currentPage+1)+","+limit+","+createParameter(name)+","+createParameter(type)+","+createParameter(min)+","+createParameter(max)+")'><i class='fa-solid fa-angle-right'></i></div></a> ";
+            html+="<a href='#/'><div class='page_num' onclick='find("+allPage+","+limit+","+createParameter(name)+","+createParameter(type)+","+createParameter(min)+","+createParameter(max)+")'><i class='fa-solid fa-angles-right'></i></div></a> ";
         }
         $("#pageWraper").html(html); 
+        let url=window.location.href.split('?')[0];
+        url+="?id=find&page="+currentPage+"&limit="+limit;
+        if(name){
+          url+="&name="+name;
+        }
+        if(type){
+          url+="&type="+type;
+        }
+        if(min){
+          url+="&min="+min;
+        }
+        if(max){
+          url+="&max="+max;
+        }
+        window.history.pushState({},'',url);
     }
 
-    function find(page=1,limit=9){
+    function find(page=1,limit=9,paraName,paraType,paraMin,paraMax){
         var name=document.getElementById("name").value;
         var type=document.getElementById("type").value;
         var minRanger=document.getElementById("minRanger").value;
         var maxRanger=document.getElementById("maxRanger").value;
-        console.log(page)
-        console.log(limit)
+        if(name=="" && type=="" && minRanger==document.getElementById("minRanger").min && maxRanger==document.getElementById("maxRanger").max){
+          if(paraName){
+            name=paraName;
+            document.getElementById("name").value=name;
+          }
+          if(paraType){
+            type=paraType;
+            var selectElement = document.getElementById("type");
+            for (var i = 0; i < selectElement.options.length; i++) {
+              var option = selectElement.options[i];
+              if (option.value === type) {
+                option.selected = true;
+                break;
+              }
+            }
+          }
+          if(paraMin){
+            minRanger=paraMin;
+            document.getElementById("minRanger").value=paraMin;
+            handleMinRangerInput(paraMin);
+          }
+          if(paraMax){
+            maxRanger=paraMax;
+            document.getElementById("maxRanger").value=paraMax;
+            handleMaxRangerInput(paraMax);
+          }
+        }
         $.ajax({
           url:"/ART/api/getFind.php?name="+name+"&type="+type+"&min="+minRanger+"&max="+maxRanger+"&limit="+limit+"&page="+page,
           type: "GET",
@@ -324,10 +363,10 @@ div[slider] > input[type=range]::-ms-tooltip {
                 $.each(result['member'], function (key, item){
                                 html += "<div class='SP_CON shadow'><div class='SP_CON1'><img src='"+item['img']+"'></div>";
                                 html += "<div class='SP_CON2'><div><h3>"+item['tensp']+"</h3><br><a class='price'>"+item['gia']+" VNĐ</a><br></div>";
-                                html += "<div style='padding-top: 20px;'><a class='btn' >Thêm vào giỏ</a></div></div></div>";
+                                html += "<div style='padding-top: 20px;'><a class='btn' onclick='singlePage(\""+item['img']+"\",\""+item['tensp']+"\","+item['gia']+","+item['soluong']+","+item['masp']+")'>Thêm vào giỏ</a></div></div></div>";
                              });             
                 $('#productWraper').html(html);
-                renderP(result.current_page,result.allPage,result.limit);
+                renderP(result.current_page,result.allPage,result.limit,name,type,minRanger,maxRanger);
             },
             error: function(xhr, ajaxOptions, thrownError) {
                         console.log(thrownError);
@@ -335,4 +374,8 @@ div[slider] > input[type=range]::-ms-tooltip {
             },
         });
     }
+
+    const queryString = window.location.search;
+    const urlParam = new URLSearchParams(queryString);
+    find(urlParam.get('page') || 1,urlParam.get('limit')|| 9,urlParam.get('name'),urlParam.get('type'),urlParam.get('min'),urlParam.get('max'));
 </script>
