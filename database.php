@@ -205,6 +205,26 @@
             return $this->statement->affected_rows;
         }
 
+        public function updateTotal($total,$ma){
+            $sql="update donhang set tongtien=? where madon=?";
+            $this->statement = $this->conn->prepare($sql);
+            $this->statement->bind_param('ii',$total,$ma);
+            $this->statement->execute();
+            $this->ResetQuery();
+
+            return $this->statement->affected_rows;
+        }
+
+        public function updateQuantity($sl,$buy,$ma){
+            $sql="update sanpham set soluong=? , slmua=? where masp=?";
+            $this->statement = $this->conn->prepare($sql);
+            $this->statement->bind_param('iis',$sl,$buy,$ma);
+            $this->statement->execute();
+            $this->ResetQuery();
+
+            return $this->statement->affected_rows;
+        }
+
         public function CountAll(){
             $sql="select count(*) as total from $this->table where sanpham.tinhtrang=1";
             $query= mysqli_query($this->conn,$sql);
@@ -342,7 +362,32 @@
             }
         }
 
-           
+        public function InsertDH($ma){
+            $sql = "insert into donhang (makh,ngaydat) values (?,NOW())";
+            $this->statement= $this->conn->prepare($sql);
+            $this->statement->bind_param('i', $ma);
+            $this->statement->execute();
+            $this->ResetQuery();
+
+            if($this->statement->affected_rows>0){
+                $ma = mysqli_insert_id($this->conn);
+                return $ma;
+            }
+            else{
+                return -1;
+            }
+
+        }   
+
+        public function InsertCTD($madon,$masp,$soluong){
+            $sql = "insert into ctdon (madon,masp,soluong) values (?,?,?)";
+            $this->statement= $this->conn->prepare($sql);
+            $this->statement->bind_param('iii',$madon,$masp,$soluong);
+            $this->statement->execute();
+            $this->ResetQuery();
+
+            return $this->statement->affected_rows;
+        }
 
         public function Close(){
             $this->conn->close();

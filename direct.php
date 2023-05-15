@@ -4,8 +4,6 @@
             case 'about':
                 include "aboutus.php";
                 break;
-            case 'news':
-                break;
             case 'product':
                 include "product.php";
                 break;
@@ -13,6 +11,10 @@
                 include "find.php";
                 break;
             case 'cart':
+                include "cart.php";
+                break;
+            case 'none':
+                include "none.php";
                 break;
         }
      }

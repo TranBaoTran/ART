@@ -29,7 +29,7 @@
         fs.style.display = 'none';
     }
 </script>
-<div class="top">
+<div class="top" style="z-index:100">
         <div class="top_container" id="userCart" onclick="goCart()"><a href="index.php?id=cart"><i class="fa-solid fa-cart-shopping"></i> &nbspGIỎ HÀNG</i><a></div>
         <?php 
         session_start();

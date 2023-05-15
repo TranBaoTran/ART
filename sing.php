@@ -1,5 +1,5 @@
 <div class="form_background" id="singlePage" style="display:none;">
-        <form class="Login_Space"  style="width:50%" method="post" action="">
+        <form class="Login_Space"  style="width:50%" method="post" onsubmit="return addCart(<?php if (isset($_SESSION['hoten']) && $_SESSION['hoten']) {echo $_SESSION['matk'];}?>)">
         <div class="title"><a id="close" onclick="closeSing()" style="text-decoration:none">X</a></div>
         <div class='singleSP'>
             <div class='SP_CON1'>
@@ -20,12 +20,38 @@
         </form>
 </div>
 <script>
- function closeSing() {
+    function closeSing() {
         var M2 = document.getElementById("singlePage");
         if (M2.style.display === "none") {
             M2.style.display = 'block';
         } else {
             M2.style.display = 'none';
+        }
+    }
+
+    function addCart(matk){
+        if(matk){
+            var tensp=document.getElementById("spid").value;
+            var slsp=document.getElementById("spmax").value;
+            $.ajax({
+                url:'/ART/api/getPro.php',
+                type: "POST",
+                dataType: "text",
+                data:{
+                    prName: tensp,
+                    prQuantity: slsp
+                },
+                success : function (data){
+                    alert(data);
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                            console.log(thrownError);
+                            alert('Lỗi sml r đừng cố');
+                },
+            });
+        }else{
+            alert("Chưa đăng nhập không thể mua hàng");
+            return false;
         }
     }
 </script>    

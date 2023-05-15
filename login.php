@@ -40,7 +40,8 @@
         })
     }
 
-    function login(){
+    function login(event){
+        event.preventDefault();
         var uname=document.getElementById('logna').value;
         var upass=document.getElementById('passw').value;
         $.ajax({
@@ -54,15 +55,23 @@
             success : function (data){
                 if(data=="-3"){
                     alert("Chưa nhập tên tài khoản");
+                    document.getElementById('logna').focus();
+                    return false;
                 }
                 else if (data=="-2"){
                     alert("Chưa nhập mật khẩu");
+                    document.getElementById('passw').focus();
+                    return false;
                 }
                 else if (data=="-1"){
                     alert("Tài khoản này không tồn tạo");
+                    document.getElementById('logna').focus();
+                    return false;
                 }
                 else if (data=="0"){
                     alert("Nhập sai mật khẩu");
+                    document.getElementById('passw').focus();
+                    return false;
                 }
                 else{
                     alert("Đăng nhập thành công");
@@ -82,6 +91,6 @@
     }
 
     seePass();
-    $('.Login_Space').children().unwrap().wrapAll("<form name='input' class='Login_Space' id='myForm' onsubmit='login();' method='post'></form>");
+    $('.Login_Space').children().unwrap().wrapAll("<form name='input' class='Login_Space' id='myForm' onsubmit='return login(event);' method='post'></form>");
 
 </script>

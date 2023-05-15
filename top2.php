@@ -103,11 +103,6 @@ ul.submenu > li:hover > a {
             </a>
           </li>
           <li>
-            <a href="index.php?id=news">
-            <i class="fa-solid fa-newspaper"></i>&nbspBài viết
-            </a>
-          </li>
-          <li>
             <a href="index.php?id=product">
              <i class="fa-brands fa-product-hunt"></i>&nbspSản phẩm
               <span class="arrow arrow-down"></span>

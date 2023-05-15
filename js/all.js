@@ -41,3 +41,8 @@ function handleMaxRangerInput(value) {
     children[13].style.left = rangeValue + '%';
     children[13].childNodes[1].innerHTML = value;
 }
+
+function directURL(url){
+    window.location.href=url;
+}
+

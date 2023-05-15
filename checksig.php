@@ -54,6 +54,7 @@
         if($db->InsertKH($dataKH)){
             echo "Đăng ký thành công. <a href='index.php'>Về trang chủ</a>";
             $db->close();
+            die();
         }
         else{
             echo "Có lỗi xảy ra trong quá trình đăng ký. <a href='index.php?form=sig'>Thử lại</a>";

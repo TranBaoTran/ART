@@ -6,4 +6,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 <link rel="stylesheet" href="css/cs_root.css">
+<link rel="stylesheet" href="css/cs_cart.css">
 <title>TURMERIC</title>
