@@ -1,7 +1,7 @@
 <div class="slideshow-container" style="z-index: -2;">
             <div class="mySlides fade">
             <div class="numbertext">1 / 4</div>
-            <img src="img/qc2.png" style="width:100%">
+            <img src="img/qc2.jpg" style="width:100%">
             </div>
             <div class="mySlides fade">
             <div class="numbertext">2 / 4</div>

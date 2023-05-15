@@ -79,7 +79,7 @@
                         window.location.href = 'index.php';
                     }
                     else{
-                        window.location.href = 'admin.php';
+                        window.location.href = 'ad_main.php';
                     }
                 }
             },
