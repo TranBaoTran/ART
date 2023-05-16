@@ -74,6 +74,103 @@
             return $returnData;
         }
 
+        public function getGio($start,$end,$type,$otype){
+            $top="select ";
+            $middle="from donhang join ctdon on donhang.madon=ctdon.madon ";
+            $bot="where ngaydat>=? AND ngaydat<=? AND donhang.tinhtrang=1 ";
+            if($otype=="1"){
+                $top.="sum(ctdon.soluong * sanpham.gia) as total , ";
+            }
+            else{
+                $top.="sum(ctdon.soluong) as total , ";
+            }
+            if(substr($type, 0, 1)=="0"){
+                $gen=substr($type, 1);
+                $top.="chungloai.tencl as ten ";
+                $middle.="join sanpham on ctdon.masp=sanpham.masp join theloai on sanpham.malsp=theloai.malsp join chungloai on theloai.macl=chungloai.macl ";
+                $bot.="and chungloai.macl=?";
+            }
+            else{
+                $gen=substr($type, 1);
+                $top.="theloai.tenlsp as ten ";
+                $middle.="join sanpham on ctdon.masp=sanpham.masp join theloai on sanpham.malsp=theloai.malsp ";
+                $bot.="and theloai.malsp=?";
+            }
+            $sql=$top.$middle.$bot;
+            $this->statement= $this->conn->prepare($sql);
+            $this->statement->bind_param('sss',$start,$end,$gen);
+            $this->statement->execute();
+            $this->ResetQuery();
+
+            $result=$this->statement->get_result();
+
+            $returnData=[];
+
+            while ($row = $result->fetch_object()){
+                $returnData=$row;
+            }
+
+            return $returnData;
+        }
+
+        public function getFull($start,$end,$otype){
+            $top="select ";
+            $middle="from donhang join ctdon on donhang.madon=ctdon.madon join sanpham on ctdon.masp=sanpham.masp ";
+            $bot="where ngaydat>=? AND ngaydat<=? AND donhang.tinhtrang=1 ";
+            if($otype=="1"){
+                $top.="sum(ctdon.soluong * sanpham.gia) as total ";
+            }
+            else{
+                $top.="sum(ctdon.soluong) as total ";
+            }
+            $sql=$top.$middle.$bot;
+            // echo $sql;
+            $this->statement= $this->conn->prepare($sql);
+            $this->statement->bind_param('ss',$start,$end);
+            $this->statement->execute();
+            $this->ResetQuery();
+
+            $result=$this->statement->get_result();
+            if ($result){
+                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                return $row['total'];
+            }
+            return 0;
+        }
+
+        public function getTop($start,$end,$otype,$sort){
+            $top="select ";
+            $middle="from donhang join ctdon on donhang.madon=ctdon.madon join sanpham on ctdon.masp=sanpham.masp ";
+            $bot="where ngaydat>=? AND ngaydat<=? AND donhang.tinhtrang=1 group by ctdon.masp ";
+            if($otype=="1"){
+                $top.="sum(ctdon.soluong * sanpham.gia) as total , tensp ";
+            }
+            else{
+                $top.="sum(ctdon.soluong) as total , tensp ";
+            }
+            if($sort=="1"){
+                $bot.=" order by total desc";
+            }
+            else{
+                $bot.=" order by total asc";
+            }
+            $sql=$top.$middle.$bot;
+            $this->statement= $this->conn->prepare($sql);
+            $this->statement->bind_param('ss',$start,$end);
+            $this->statement->execute();
+            $this->ResetQuery();
+
+            $result=$this->statement->get_result();
+
+            $returnData=[];
+
+            while ($row = $result->fetch_object()){
+                $returnData[]=$row;
+            }
+
+            return $returnData;
+        }
+
         public function GetGen($name){
             $sql="select * from sanpham join theloai on sanpham.malsp=theloai.malsp where macl='".$name."' and sanpham.tinhtrang=1 limit ? offset ?";
             $this->statement= $this->conn->prepare($sql);

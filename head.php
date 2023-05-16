@@ -7,4 +7,9 @@
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 <link rel="stylesheet" href="css/cs_root.css">
 <link rel="stylesheet" href="css/cs_cart.css">
+<link rel="stylesheet" href="css/admin.css">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+    </script>
 <title>TURMERIC</title>

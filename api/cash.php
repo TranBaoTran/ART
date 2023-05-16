@@ -13,16 +13,16 @@
                     $db->close();
                     die();
                 }
-                $sql="select * from sanpham where masp='".$item['ten']."'";
-                $pr=$db->getOne($sql);
-                $slnew=$pr->soluong-$item['sl'];
-                $buynew=$pr->slmua+$item['sl'];
-                $ck4=$db->updateQuantity($slnew,$buynew,$item['ten']);
-                if($ck4<1){
-                    echo "Không thể thay đổi dữ liệu của kho";
-                    $db->close();
-                    die();
-                }
+                // $sql="select * from sanpham where masp='".$item['ten']."'";
+                // $pr=$db->getOne($sql);
+                // $slnew=$pr->soluong-$item['sl'];
+                // $buynew=$pr->slmua+$item['sl'];
+                // $ck4=$db->updateQuantity($slnew,$buynew,$item['ten']);
+                // if($ck4<1){
+                //     echo "Không thể thay đổi dữ liệu của kho";
+                //     $db->close();
+                //     die();
+                // }
             }
             if(isset($_SESSION['total'])){
                 $ck3=$db->updateTotal($_SESSION['total'],$ck1);
