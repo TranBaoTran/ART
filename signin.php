@@ -71,8 +71,11 @@
             }
         })
     }
+      
 
-    function check(){
+    function signin(event){
+        event.preventDefault();
+
         const fulln=document.getElementById('fulln');
         const phone=document.getElementById('phone');
         const mail=document.getElementById('mail');
@@ -82,9 +85,7 @@
 
         var regTel=new RegExp(/^[0-9\-\+]{9,15}$/,"ig");
         var regMail=new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/,"ig");
-        var regUName= new RegExp(/^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,"gm");
         var regPass=new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,"gm");
-        var regName=new RegExp(/^[\w'\-,.][^0-9_!¡?÷?¿\\+=@#$%ˆ&*(){}|~<>;."^',`:[\]]{1,}$/,"gm");
 
         if(fulln.value==''){
             alert('Họ và tên không được trống');
@@ -121,11 +122,6 @@
             mail.focus();
             return false;
         }
-        if(!logn.value.trim().match(regUName)){
-            alert("Nhập sai tên tài khoản");
-            logn.focus();
-            return false;
-        }
         if(!pass.value.trim().match(regPass)){
             alert("Nhập sai mật khẩu");
             pass.focus();
@@ -136,9 +132,56 @@
             passag.focus();
             return false;
         }
+
+        $.ajax({
+            url:'/ART/api/getSign.php',
+            type: "POST",
+            dataType: "text",
+            data:{
+                name: fulln.value.trim(),
+                phone: phone.value.trim(),
+                mail: mail.value.trim(),
+                uname: logn.value.trim(),
+                pass: pass.value.trim()
+            },
+            success : function (data){
+                if(data=="1"){
+                    alert("Đăng kí thành công!");
+                    window.location.href="index.php";
+                }
+                else if(data=="0"){
+                    alert("Đã có lỗi xảy ra trong lúc truyền dữ liệu");
+                }
+                else if(data=="-1"){
+                    alert("Số điện thoại đã được sử dụng! Vui lòng chọn số điện thoại khác");
+                    phone.focus();
+                    return false;
+                }
+                else if(data=="-2"){
+                    alert("Email đã được sử dụng! Vui lòng chọn email khác");
+                    mail.focus();
+                    return false;
+                }
+                else if(data=="-3"){
+                    alert("Tên đăng nhập đã tồn tại! Vui lòng chọn tên đăng nhập khác");
+                    logn.focus();
+                    return false;
+                }
+                else if(data=="-3"){
+                    alert("Không thể lưu thông tin khách hàng");
+                }
+                else{
+                    alert("Không thể tạo tài khoản");
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                        console.log(thrownError);
+                        alert('Lỗi sml r đừng cố');
+            },
+        });     
     }
 
     seePass("pass","cmml");
     seePass("passag","cmmn");
-    $('.Login_Space').children().unwrap().wrapAll("<form name='input' class='Login_Space' style='top:60px' id='' action='checksig.php' method='post' onsubmit='return check()'></form>");
+    $('.Login_Space').children().unwrap().wrapAll("<form name='input' class='Login_Space' style='top:60px' id='' method='post' onsubmit='return signin(event)'></form>");
 </script>
