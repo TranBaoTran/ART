@@ -25,7 +25,6 @@ function themSPMoi()
 	$result1 = dataProvider::executeQuery($sql1);
 	while ($row = mysqli_fetch_array($result1)){
 		if ($row['maquyen'] == 101){
-			$masp = isset($_POST["masp"]) ? $_POST["masp"] : "";
 			$tensp = isset($_POST["tensp"]) ? $_POST["tensp"] : "";
 			$gia = isset($_POST["gia"]) ? $_POST["gia"] : "";
 			$malsp = isset($_POST["malsp"]) ? $_POST["malsp"] : "";
@@ -37,17 +36,12 @@ function themSPMoi()
 			$target_dir = "dbimg/";
 			$target = $target_dir . basename($_FILES["img"]["name"]);
 			
-
-			if ($masp == ''){
-				echo "<script>alert('Mã sản phẩm không được để trống')</script>";
-				return;
-			}
 			if ($tensp == ''){
 				echo "<script>alert('Tên sản phẩm không được để trống')</script>";
 				return;
 			}
-			if ($gia == ''){
-				echo "<script>alert('Giá sản phẩm không được để trống')</script>";
+			if ($gia == '' || $gia <= 0){
+				echo "<script>alert('Giá sản phẩm không được để trống và phải lớn hơn 0')</script>";
 				return;
 			}
 			if ($malsp == ''){
@@ -76,7 +70,7 @@ function themSPMoi()
 				} 
 	
 				//Kiểm tra dạng tập tin upload (file type)
-				if (!($uploaded_type=="image/gif" || $uploaded_type=="image/pjpeg" || $uploaded_type=="image/jpeg" ||$uploaded_type =="text/php")) 
+				if (!($uploaded_type=="image/gif" || $uploaded_type=="image/pjpeg" || $uploaded_type=="image/jpeg" ||$uploaded_type =="text/php" || $uploaded_type=="image/png")) 
 				{ 
 					echo "<script> alert('Chỉ upload tập tin dạng GIF, JPG, JEPG, PHP) </script>"; 
 					$ok=0; 
@@ -123,6 +117,8 @@ function themSPMoi()
 				}
 			}
 		}
+			$rown = mysqli_fetch_array(dataProvider::executeQuery("select masp from sanpham where masp=(select max(masp) from sanpham)"));
+			$masp = $rown['masp']+1;
 		
 			$sql = "insert into sanpham(masp,tensp,hang,soluong,img,malsp,tinhtrang,mahang,slmua,gia) values ('$masp','$tensp','$hang',$soluong,'$target','$malsp',1,'$mahang',0,'$gia')";
     		dataProvider::executeQuery($sql);
@@ -165,7 +161,7 @@ function suaThongtinSP()
 				} 
 	
 				//Kiểm tra dạng tập tin upload (file type)
-				if (!($uploaded_type=="image/gif" || $uploaded_type=="image/pjpeg" || $uploaded_type=="image/jpeg" ||$uploaded_type =="text/php")) 
+				if (!($uploaded_type=="image/gif" || $uploaded_type=="image/pjpeg" || $uploaded_type=="image/jpeg" ||$uploaded_type =="text/php" || $uploaded_type=="image/png")) 
 				{ 
 					echo "<script> alert('Chỉ upload tập tin dạng GIF, JPG, JEPG, PHP) </script>"; 
 					$ok=0; 
@@ -218,7 +214,7 @@ function suaThongtinSP()
 
 			$sql = "update sanpham set tensp='$tensp', gia='$gia', malsp='$malsp', hang='$hang', soluong='$soluong', img='$target' where masp='$masp'";
     		dataProvider::executeQuery($sql);
-			echo "<script>alert('Đã thực hiện sửa sản phẩm. $target')</script>";
+			echo "<script>alert('Đã thực hiện sửa sản phẩm.')</script>";
 			return;
 		}
 	}

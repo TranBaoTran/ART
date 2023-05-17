@@ -86,10 +86,6 @@
     <td><input style="height:25px; width:400px; float:left; margin-left:40px" name="tensp" type="text" id="tensp" value="" /></td>
   </tr>
   <tr>
-    <td>Mã sản phẩm:</td>
-    <td><input style="height:25px; width:170px; float:left; margin-left:40px" name="masp" type="text" id="masp" value="" /></td>
-  </tr>
-  <tr>
     <td>Đơn giá:</td>
     <td><input style="height:25px; width:170px; float:left; margin-left:40px" name="gia" type="text" id="gia" value="" /></td>
   </tr>

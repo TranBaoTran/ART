@@ -82,13 +82,13 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1 ;
     </table>
     <br>
     <br>
-    <div class="pagination"> <a href="?view=show1&page=<?=$page-1;?>" class="page_num">&laquo;</a> <span class="active">
+    <div class="pagination"> <a href="?view=show2&page=<?=$page-1;?>" class="page_num">&laquo;</a> <span class="active">
             <?php for($i=1; $i<=$pagecount; $i++) {?>
-            <a href="?view=show1&page=<?=$i; ?>" class="page_num">
+            <a href="?view=show2&page=<?=$i; ?>" class="page_num">
             <?=$i; ?>
             </a>
             <?php } ?>
-            </span> <a href="?view=show1&page=<?=$page+1;?>" class="page_num">&raquo;</a> </div>
+            </span> <a href="?view=show2&page=<?=$page+1;?>" class="page_num">&raquo;</a> </div>
     </div>
 
 </div>

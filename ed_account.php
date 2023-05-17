@@ -2,7 +2,6 @@
 include_once("sqlconn.php");
 $thongbao = "";
 $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : "";
-include_once("sessionAcc.php");
 switch($action)
 {
 	case "editacc":
@@ -37,8 +36,17 @@ function editacc()
 			$matk = isset($_POST["matk"]) ? $_POST["matk"] : "";
 			$tendn = isset($_POST["tendn"]) ? $_POST["tendn"] : "";
 			$manq = isset($_POST["manq"]) ? $_POST["manq"] : "";
+			$pass = isset($_POST["pass"]) ? $_POST["pass"] : "";
 
-			$sql = "update taikhoan set tendn='$tendn', nhomquyen='$manq' where matk='$matk'";
+			$sql="";
+			if($pass==""){
+				$sql = "update taikhoan set tendn='$tendn', nhomquyen='$manq' where matk='$matk'";
+			}
+			else{
+				$pass=md5($pass);
+				$sql = "update taikhoan set tendn='$tendn', nhomquyen='$manq' , matkhau='$pass' where matk='$matk'";
+			}
+			
         	dataProvider::executeQuery($sql);
 
 			echo "<script>alert('Đã sửa thông tin tài khoản.')</script>";
@@ -66,6 +74,22 @@ function newacc()
 			$pass = isset($_POST["pass"]) ? $_POST["pass"] : "";
 			$manq = isset($_POST["manq"]) ? $_POST["manq"] : "";
 			$pass = md5($pass);
+			$sql2 = "select * from taikhoan";
+			$result2 = dataProvider::executeQuery($sql2);
+			while ($row2 = mysqli_fetch_array($result2)){
+				if ($row2['tendn'] == $tendn){
+					echo "<script>alert('Tên đăng nhập không được trùng.')</script>";
+					return;
+				}
+			}
+			if ($tendn == ""){
+				echo "<script>alert('Tên đăng nhập không được để trống.')</script>";
+				return;
+			}
+			if ($pass == ""){
+				echo "<script>alert('Mật khẩu không được để trống.')</script>";
+				return;
+			}
             $sql = "insert into taikhoan(tendn,matkhau,ngaytao,nhomquyen,tinhtrang) values ('$tendn','$pass','$d','$manq',1)";
         	dataProvider::executeQuery($sql);
 			echo "<script>alert('Đã thực hiện tạo tài khoản.')</script>";

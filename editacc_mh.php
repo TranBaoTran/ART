@@ -65,7 +65,7 @@
 </style>
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 <?php 
-	$matk = (isset($_REQUEST["matk"])) ? $_REQUEST["matk"] : "";	
+	$matk = (isset($_REQUEST["matk"])) ? $_REQUEST["matk"] : "";
     $manq = (isset($_REQUEST["manq"])) ? $_REQUEST["manq"] : "";
 	$sql = "select * from taikhoan where matk='$matk'";
 
@@ -79,7 +79,8 @@
 <body>
 <div class="sua">
 <form  method="POST" action="?view=show2&action=editacc" name="frmCapnhat" id="frmCapnhat">
-<input name="matk" type="hidden" size="40" value="" />
+<input name="matk" type="hidden" size="40" value="<?=$row['matk']?>" />
+<input name="manqf" type="hidden" size="40" value="<?=$row['nhomquyen']?>" />
 <br>
 <br><br>
 <h3>Sửa thông tin tài khoản</h3>
@@ -90,7 +91,7 @@
     </tr>
     <tr>
         <td>Mật khẩu:</td>
-        <td><input style="height:25px; width:220px; float:left; margin-left:40px" name="pass" type="password" id="pass" value="<?= $row['matkhau']; ?>" /></td>
+        <td><input style="height:25px; width:220px; float:left; margin-left:40px" name="pass" type="password" id="pass" /></td>
     </tr>
     <tr>
         <td>Nhóm quyền:</td>

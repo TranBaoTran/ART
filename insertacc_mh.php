@@ -83,7 +83,7 @@
     </tr>
     <tr>
         <td>Mật khẩu:</td>
-        <td><input style="height:25px; width:220px; float:left; margin-left:40px" name="pass" type="pass" id="pass" value="" /></td>
+        <td><input style="height:25px; width:220px; float:left; margin-left:40px" name="pass" type="password" id="pass" value="" /></td>
     </tr>
     <tr>
         <td>Nhóm quyền:</td>
