@@ -1,6 +1,5 @@
 <?php
     include_once "../database.php";
-    include_once "../sessionAcc.php";
 
     session_start();
 
