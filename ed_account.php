@@ -2,7 +2,7 @@
 include_once("sqlconn.php");
 $thongbao = "";
 $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : "";
-
+include_once("sessionAcc.php");
 switch($action)
 {
 	case "editacc":
@@ -22,23 +22,26 @@ switch($action)
 //----------------------------------------------------------------------------
 function editacc()
 {
+	$manqf = isset($_POST["manqf"]) ? $_POST["manqf"] : "";
+	if ($manqf == 'KH'){
+		echo "<script>alert('Loại tài khoản này không thể chỉnh sửa thông tin.')</script>";
+		return;
+	}
 	if (isset($_SESSION['nhomquyen'])){
 		$acct = $_SESSION['nhomquyen'];
-	}
-	$matk = isset($_GET["matk"]) ? $_GET["matk"] : "";
-	$manq1 = isset($_GET["manhomq"]) ? $_GET["manhomq"] : "";
-	if ($manq1 == "KH"){
-		echo "<script>alert('Nhóm tài khoản này không thể thực hiện sửa thông tin.')</script>";
-		return;
 	}
 	$sql1 = "select * from phanquyen where manq='$acct'";
 	$result1 = dataProvider::executeQuery($sql1);
 	while ($row = mysqli_fetch_array($result1)){
 		if ($row['maquyen'] == 105){
+			$matk = isset($_POST["matk"]) ? $_POST["matk"] : "";
 			$tendn = isset($_POST["tendn"]) ? $_POST["tendn"] : "";
-			$pass = isset($_POST["pass"]) ? $_POST["pass"] : "";
-			$manq2 = isset($_POST["manq"]) ? $_POST["manq"] : "";
-			echo "<script>alert('Đã $matk sửa $manq1 thông tin $manq2 tài khoản.')</script>";
+			$manq = isset($_POST["manq"]) ? $_POST["manq"] : "";
+
+			$sql = "update taikhoan set tendn='$tendn', nhomquyen='$manq' where matk='$matk'";
+        	dataProvider::executeQuery($sql);
+
+			echo "<script>alert('Đã sửa thông tin tài khoản.')</script>";
 			return;
 		}
 	}
@@ -63,8 +66,8 @@ function newacc()
 			$pass = isset($_POST["pass"]) ? $_POST["pass"] : "";
 			$manq = isset($_POST["manq"]) ? $_POST["manq"] : "";
 			$pass = md5($pass);
-            $sql1 = "insert into taikhoan(tendn,matkhau,ngaytao,nhomquyen,tinhtrang) values ('$tendn','$pass','$d','$manq',1)";
-        	dataProvider::executeQuery($sql1);
+            $sql = "insert into taikhoan(tendn,matkhau,ngaytao,nhomquyen,tinhtrang) values ('$tendn','$pass','$d','$manq',1)";
+        	dataProvider::executeQuery($sql);
 			echo "<script>alert('Đã thực hiện tạo tài khoản.')</script>";
 			return;
 		}

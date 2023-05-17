@@ -7,9 +7,10 @@
     <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
     </script>
-    <?php include "ad_header.php";?>
-    <?php
+    <?php 
         session_start();
+    include "ad_header.php";?>
+    <?php
         $view = isset($_REQUEST["view"]) ? $_REQUEST["view"]: "" ;
 		switch($view){
             case "show1":

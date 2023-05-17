@@ -25,10 +25,11 @@
         echo "0";
     }
     else{
-        $sql="select matk,nhomquyen from taikhoan where tendn='".$uname."'";
+        $sql="select matk,tendn,nhomquyen from taikhoan where tendn='".$uname."'";
         $member=$db->getOne($sql);
         $_SESSION['matk'] = $member->matk;
         $_SESSION['nhomquyen'] = $member->nhomquyen;
+        $_SESSION['tentk'] = $member->tendn;
         if($member->nhomquyen=="KH"){
             $sql="select hoten as total from khachhang where matk='".$member->matk."'";
             $hoten=$db->Take($sql);

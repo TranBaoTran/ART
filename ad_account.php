@@ -66,7 +66,7 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1 ;
                 }
                 ?>
             </td>
-            <td><a href='?view=show2&manhinh=editacc&matk=<?=$row['matk']; ?>.&manhomq=<?= $row['nhomquyen'];?>' class='edit_icon' title='Sửa'></a></td>
+            <td><a href="?view=show2&manhinh=editacc&matk=<?=$row['matk'];?>" class='edit_icon' title='Sửa'></a></td>
             <?php if ($row['tinhtrang']==1){ ?>
             <td><a href='?view=show2&action=lockac&matk=<?=$row['matk']; ?>' onClick="return confirm('Bạn có chắc chắn muốn khóa tài khoản này không ?')" class='delete_icon' title='Khóa'></a></td>
             <?php }

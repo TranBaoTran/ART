@@ -1,6 +1,6 @@
 <header style="font-family:sans-serif;top: 0;margin: 0;padding: 0;max-width: 100%;position: sticky; z-index: 999;">
     <div class="top">
-        <div class="top_container sub-menu-parent"><i class="fa-solid fa-user"></i>&nbspADMIN
+        <div class="top_container sub-menu-parent"><i class="fa-solid fa-user"></i>&nbsp<?php if(isset($_SESSION['tentk'])) { echo $_SESSION['tentk'];}?>
             <ul class="sub-menu">
                 <li style="padding-top:10px ;padding-bottom:10px" onclick="Logout();"><i class="fa-solid fa-right-from-bracket"></i>&nbspĐăng xuất</li>
                 <ul>

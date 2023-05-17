@@ -64,10 +64,10 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1 ;
                 ?>
             </td>
             <?php if ($row['tinhtrang']==1){ ?>
-            <td><a href='?view=show3&action=cancelDon&madon=<?=$row['madon']; ?>' onClick="return confirm('Hủy xác nhận đơn hàng?')" class='delete_icon' title='Hủy đơn'></a></td>
+            <td><a href='?view=show3&action=cancelDon&madon=<?=$row['madon']; ?>' onClick="return confirm('Hủy xác nhận đơn hàng?')" class='active_icon' title='Hủy đơn'></a></td>
             <?php }
             if ($row['tinhtrang']==0){ ?>
-            <td><a href='?view=show3&action=acceptDon&madon=<?=$row['madon']; ?>' onClick="return confirm('Xác nhận đơn hàng?')" class='active_icon' title='Xác nhận đơn'></a></td>
+            <td><a href='?view=show3&action=acceptDon&madon=<?=$row['madon']; ?>' onClick="return confirm('Xác nhận đơn hàng?')" class='delete_icon' title='Xác nhận đơn'></a></td>
             <?php } ?>
             <td><a href='?view=show3&manhinh=xemct&madon=<?=$row['madon']; ?>' class='eye_icon' title='Xem chi tiết đơn'></a></td>
             </tr>
