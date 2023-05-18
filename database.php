@@ -172,9 +172,9 @@
         }
 
         public function GetGen($name){
-            $sql="select * from sanpham join theloai on sanpham.malsp=theloai.malsp where macl='".$name."' and sanpham.tinhtrang=1 limit ? offset ?";
+            $sql="select * from sanpham join theloai on sanpham.malsp=theloai.malsp where macl=? and sanpham.tinhtrang=1 limit ? offset ?";
             $this->statement= $this->conn->prepare($sql);
-            $this->statement->bind_param('ii',$this->limit,$this->offset);
+            $this->statement->bind_param('sii',$name,$this->limit,$this->offset);
             $this->statement->execute();
             $this->ResetQuery();
 
@@ -190,9 +190,9 @@
         }
 
         public function GetCate($name){
-            $sql="select * from sanpham where malsp='".$name."' and sanpham.tinhtrang=1 limit ? offset ?";
+            $sql="select * from sanpham where malsp=? and sanpham.tinhtrang=1 limit ? offset ?";
             $this->statement= $this->conn->prepare($sql);
-            $this->statement->bind_param('ii',$this->limit,$this->offset);
+            $this->statement->bind_param('sii',$name,$this->limit,$this->offset);
             $this->statement->execute();
             $this->ResetQuery();
 

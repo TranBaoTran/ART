@@ -64,7 +64,7 @@
                     return false;
                 }
                 else if (data=="-1"){
-                    alert("Tài khoản này không tồn tạo");
+                    alert("Tài khoản này không đăng nhập được");
                     document.getElementById('logna').focus();
                     return false;
                 }

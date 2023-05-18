@@ -48,7 +48,7 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1 ;
     <?php
         $count  = $start+1;
         include_once("sqlconn.php");
-        $sql = "select * from taikhoan limit $start, $limit";
+        $sql = "select * from taikhoan join nhomquyen on taikhoan.nhomquyen=nhomquyen.ma limit $start, $limit";
         $result = dataProvider::executeQuery($sql);
         while ($row=mysqli_fetch_array($result)){ ?>
             <tbody>
@@ -57,7 +57,7 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1 ;
             <td><?php echo $row['matk']; ?></td>
             <td><?php echo $row['tendn']; ?></td>
             <td><?php echo $row['ngaytao']; ?></td>
-            <td><?php echo $row['nhomquyen']; ?></td>
+            <td><?php echo $row['ten']; ?></td>
             <td><?php if ($row['tinhtrang']==1){
                     echo "Hoạt động";
                 }

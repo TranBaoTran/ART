@@ -86,6 +86,8 @@
         var regTel=new RegExp(/^[0-9\-\+]{9,15}$/,"ig");
         var regMail=new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/,"ig");
         var regPass=new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,"gm");
+        var regUname=new RegExp(/^[a-z0-9_-]{3,16}$/);
+        var regFname= new RegExp(/^[AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+ [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+(?: [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]*)*/,"gm");
 
         if(fulln.value==''){
             alert('Họ và tên không được trống');
@@ -112,6 +114,11 @@
             passag.focus();
             return false;
         }
+        if(!fulln.value.trim().match(regFname)){
+            alert("Nhập sai họ và tên");
+            fulln.focus();
+            return false;
+        }
         if(!phone.value.trim().match(regTel)){
             alert("Nhập sai số điện thoại");
             phone.focus();
@@ -120,6 +127,11 @@
         if(!mail.value.trim().match(regMail)){
             alert("Nhập sai email");
             mail.focus();
+            return false;
+        }
+        if(!logn.value.trim().match(regUname)){
+            alert("Nhập sai tên đăng nhập");
+            logn.focus();
             return false;
         }
         if(!pass.value.trim().match(regPass)){
